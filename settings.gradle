@@ -1,3 +1,20 @@
+pluginManagement {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+        maven {
+            url = uri("https://groovy.jfrog.io/artifactory/libs-release/")
+        }
+        maven {
+            url = uri("https://repo.spring.io/libs-milestone/")
+        }
+        maven {
+            url = uri("https://verve.jfrog.io/artifactory/verve-gradle-release/")
+        }
+      }
+  }
+
 rootProject.name='http-builder-ng'
 
 include 'http-builder-ng-core', 'http-builder-ng-apache', 'http-builder-ng-okhttp'

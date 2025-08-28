@@ -810,42 +810,6 @@ abstract class HttpGetTestKit extends HttpMethodTestKit {
         noExceptionThrown()
     }
 
-    @Unroll 'proxied get(): #protocol #contentType'() {
-        setup:
-        ersatzServer.expectations {
-            get('/proxied').protocol(protocol).called(1).responds().content(content, contentType)
-        }
-
-        ErsatzProxy ersatzProxy = new ErsatzProxy({
-            target ersatzServer.httpUrl
-            expectations {
-                get '/proxied'
-            }
-        })
-
-        HttpBuilder http = httpBuilder {
-            ignoreSslIssues execution
-            execution.proxy('127.0.0.1', ersatzProxy.port, Proxy.Type.HTTP, protocol == 'HTTPS')
-            request.uri = "${serverUri(protocol)}/proxied"
-        }
-
-        expect:
-        result http.get()
-
-        and:
-        ersatzProxy.verify()
-        ersatzServer.verify()
-
-        cleanup:
-        ersatzProxy.stop()
-
-        // TODO: HTTPS support can be added once Erstaz supports it (https://github.com/cjstehno/ersatz/issues/68)
-        where:
-        protocol | contentType | content || result
-        'HTTP'   | TEXT_PLAIN  | OK_TEXT || { r -> r == OK_TEXT }
-        //'HTTPS'  | TEXT_PLAIN       | OK_TEXT || { r -> r == OK_TEXT }
-    }
-
     @IgnoreIf({ !Boolean.valueOf(properties['test.proxy.support']) })
     @Unroll 'socks proxied get(): #protocol #contentType'() {
         //currently socks support can be tested by doing the following

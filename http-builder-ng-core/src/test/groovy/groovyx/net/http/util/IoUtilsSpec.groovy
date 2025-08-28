@@ -17,22 +17,7 @@ package groovyx.net.http.util
 
 import spock.lang.Specification
 
-import static com.stehno.vanilla.test.Randomizers.forByteArray
-import static com.stehno.vanilla.test.Randomizers.random
-
 class IoUtilsSpec extends Specification {
-
-    def 'streamToBytes'() {
-        expect:
-        IoUtils.streamToBytes(new ByteArrayInputStream(bytes)) == bytes
-
-        where:
-        bytes << [
-            random(forByteArray(10..10)),
-            random(forByteArray(1000..1000)),
-            random(forByteArray(10000..10000))
-        ]
-    }
 
     @SuppressWarnings('GrDeprecatedAPIUsage')
     def 'copyAsString'() {

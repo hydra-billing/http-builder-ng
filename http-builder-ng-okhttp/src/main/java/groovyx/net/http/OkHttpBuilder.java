@@ -242,7 +242,8 @@ public class OkHttpBuilder extends HttpBuilder {
 
     private static MediaType resolveMediaType(final String contentType, final Charset charset) {
         if (contentType != null) {
-            if (charset != null) {
+            // charset makes sense only for "text" MIME type
+            if (contentType.startsWith("text") && charset != null) {
                 return parse(contentType + "; charset=" + charset.toString().toLowerCase());
             } else {
                 return parse(contentType);
